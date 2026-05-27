@@ -195,6 +195,8 @@
     const completedExceptCert = ALL_LESSONS.filter((l) => l.id !== "certificate" && isComplete(l.id)).length;
     const remaining = otherLessons - completedExceptCert;
     const savedName = localStorage.getItem(NAME_KEY) || "";
+    const certIdx = ALL_LESSONS.findIndex((l) => l.id === "certificate");
+    const prevLesson = ALL_LESSONS[certIdx - 1];
 
     pane.innerHTML = `
       <div class="crumb">마무리 및 수료증</div>
@@ -231,14 +233,14 @@
           `
       }
       <div class="lesson-footer">
-        <button class="btn btn-ghost" id="prev-btn">← 다음 단계</button>
+        <button class="btn btn-ghost" id="prev-btn">← ${escapeHtml(prevLesson.title)}</button>
         <button class="btn ${isComplete("certificate") ? "btn-ghost" : "btn-primary"}" id="complete-btn">
           ${isComplete("certificate") ? "완료됨 ✓" : "완료로 표시"}
         </button>
       </div>
     `;
 
-    document.getElementById("prev-btn").addEventListener("click", () => navigateTo("whats-next"));
+    document.getElementById("prev-btn").addEventListener("click", () => navigateTo(prevLesson.id));
     document.getElementById("complete-btn").addEventListener("click", () => {
       markComplete("certificate");
       renderSidebar("certificate");
