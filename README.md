@@ -1,6 +1,6 @@
 # Claude 101 (한국어)
 
-[anthropic.skilljar.com/claude-101](https://anthropic.skilljar.com/claude-101)을 본떠 한국어 독자를 위해 옮긴, Claude 사용법을 다루는 정적 자기주도 입문 강의입니다.
+Claude 사용법을 다루는 정적 자기주도 입문 강의입니다.
 
 **라이브:** https://ai.tchung.org/claude-101/
 
