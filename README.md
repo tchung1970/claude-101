@@ -71,5 +71,4 @@ scp -r index.html course.html css js root@ai:/var/www/html/claude-101/
 ## 크레딧
 
 - 강의 구성과 커리큘럼은 Anthropic 공식 [Claude 101](https://anthropic.skilljar.com/claude-101)을 참고했습니다.
-- 푸터 디자인은 [ai-terms](https://ai.tchung.org/ai-terms/) 프로젝트에서 가져왔습니다.
 - [Claude Opus 4.7](https://www.anthropic.com/news/claude-opus-4-7)로 만들었습니다.
