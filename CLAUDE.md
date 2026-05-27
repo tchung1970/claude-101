@@ -10,7 +10,10 @@ python3 -m http.server 8765
 open http://localhost:8765/
 
 # Deploy (production)
-scp -r index.html course.html css js root@ai:/var/www/html/claude-101/
+scp -r index.html course.html og.png css js root@ai:/var/www/html/claude-101/
+
+# Regenerate the OG preview image after changing copy or palette
+python3 make_og.py
 ```
 
 Production site: https://ai.tchung.org/claude-101/ — served as static files by the existing nginx vhost on `ai.tchung.org`. No build step. No reload needed for static file changes.
