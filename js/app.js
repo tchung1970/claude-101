@@ -27,11 +27,15 @@
     progress[id] = { completedAt: new Date().toISOString() };
     saveProgress(progress);
   }
+  // Certificate isn't a lesson — exclude it from the progress count.
+  function totalLessonCount() {
+    return ALL_LESSONS.filter((l) => l.id !== "certificate").length;
+  }
   function completedCount() {
-    return ALL_LESSONS.filter((l) => isComplete(l.id)).length;
+    return ALL_LESSONS.filter((l) => l.id !== "certificate" && isComplete(l.id)).length;
   }
   function allComplete() {
-    return completedCount() === ALL_LESSONS.length;
+    return completedCount() === totalLessonCount();
   }
 
   // ---- Sidebar render ----
@@ -63,7 +67,7 @@
     });
 
     // Progress bar
-    const total = ALL_LESSONS.length;
+    const total = totalLessonCount();
     const done = completedCount();
     document.getElementById("progress-bar").style.width = `${Math.round((done / total) * 100)}%`;
     document.getElementById("progress-text").textContent = `${total}개 레슨 중 ${done}개 완료`;
@@ -191,9 +195,7 @@
 
   function renderCertificate() {
     const unlocked = allComplete();
-    const otherLessons = ALL_LESSONS.filter((l) => l.id !== "certificate").length;
-    const completedExceptCert = ALL_LESSONS.filter((l) => l.id !== "certificate" && isComplete(l.id)).length;
-    const remaining = otherLessons - completedExceptCert;
+    const remaining = totalLessonCount() - completedCount();
     const savedName = localStorage.getItem(NAME_KEY) || "";
     const certIdx = ALL_LESSONS.findIndex((l) => l.id === "certificate");
     const prevLesson = ALL_LESSONS[certIdx - 1];
