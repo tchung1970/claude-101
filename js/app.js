@@ -173,7 +173,20 @@
       fb.classList.add("show");
     });
     const total = lesson.quiz.length;
-    document.getElementById("grade-result").textContent = `점수: ${correct} / ${total}`;
+    const justCompleted = correct === total && !isComplete(lesson.id);
+
+    if (justCompleted) {
+      markComplete(lesson.id);
+      renderSidebar(lesson.id);
+      const btn = document.getElementById("complete-btn");
+      if (btn) {
+        btn.outerHTML = `<button class="btn btn-ghost" id="complete-btn">완료됨 ✓</button>`;
+      }
+    }
+
+    document.getElementById("grade-result").textContent = justCompleted
+      ? `점수: ${correct} / ${total} · 완료로 표시되었습니다`
+      : `점수: ${correct} / ${total}`;
   }
 
   function renderCertificate() {
