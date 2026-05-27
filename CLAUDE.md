@@ -46,6 +46,13 @@ Two HTML pages share one design system and one data source:
 
 - **`answers.md`** — flat Q1–Q12 answer sheet for the maintainer (one line per question: question + `→ B. ...` correct option). Gitignored via `.gitignore`. Regenerate by hand from `js/curriculum.js` whenever quiz data changes; there's no script. Don't commit it — the URL in the footer would leak the answers.
 
+## OG preview image
+
+- **Generator:** `make_og.py` (Pillow) renders `og.png` at 1200×630. Modeled after `/Users/tchung/claude/ai-terms/make_og.py` but redesigned to mirror this site's hero 1:1 — Georgia Bold "Claude 101", muted eyebrow, real lead paragraph, and the same four-pair meta strip the landing page shows. No rainbow band, no soft blobs — keep it that way; the design intent is "looks like the hero, not a generic template."
+- **Palette:** lifted from `css/styles.css` design tokens — `#f3ede2` bg, `#1f1d1a` ink, `#5b554c` ink-soft, `#8a847a` ink-mute, `#c96442` accent (used only for the URL).
+- **Workflow after copy/palette changes:** `python3 make_og.py` → `scp og.png root@ai:/var/www/html/claude-101/` → open https://developers.facebook.com/tools/debug/?q=https%3A%2F%2Fai.tchung.org%2Fclaude-101%2F and click **Scrape Again**. That refreshes Meta's scraper cache for the FB graph.
+- **Threads cache quirk:** Threads keeps its own page-→-preview cache, separate from the FB Sharing Debugger. After updating the image, the FB debugger will show the new card immediately but Threads can keep serving the old preview for hours. To force-refresh: paste the URL once with a fragment (`https://ai.tchung.org/claude-101/#share`) — same page, different cache key — or share `course.html` (different path, same OG meta). Don't add `?v=N` to the `og:image` meta tag; it works but the user dislikes the ugly URL.
+
 ## Deployment target
 
 The server `root@ai` (= `ai.tchung.org`) hosts multiple static sites under `/var/www/html/<project>/`, each served at `https://ai.tchung.org/<project>/` by a single nginx vhost. This repo deploys to `/var/www/html/claude-101/`. See also `~/.claude/projects/-Users-tchung-claude-claude-101/memory/reference_ai_server.md` for the full server layout.
