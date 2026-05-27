@@ -93,7 +93,7 @@
           <h3>이해도 점검</h3>
           ${lesson.quiz.map((q, qi) => `
             <div class="q" data-qi="${qi}">
-              <p><strong>Q${qi + 1}.</strong> ${q.q}</p>
+              <p><strong>Q${idx + 1}.</strong> ${q.q}</p>
               <div class="options">
                 ${q.options.map((opt, oi) => `
                   <label data-oi="${oi}">
