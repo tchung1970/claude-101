@@ -78,5 +78,5 @@ uw = ubb[2] - ubb[0]
 url_y = 90  # mirror the eyebrow's vertical position, right-aligned
 draw.text((W - PAD_X - uw, url_y), url, fill=ACCENT, font=url_font)
 
-img.save("/Users/tchung/claude/claude-101/og.png", "PNG", optimize=True)
+img.save("/Users/tchung/claude/claude-101/og-hero.png", "PNG", optimize=True)
 print("ok", img.size)

@@ -10,7 +10,7 @@ python3 -m http.server 8765
 open http://localhost:8765/
 
 # Deploy (production)
-scp -r index.html course.html og.png css js root@ai:/var/www/html/claude-101/
+scp -r index.html course.html og-hero.png css js root@ai:/var/www/html/claude-101/
 
 # Regenerate the OG preview image after changing copy or palette
 python3 make_og.py
@@ -48,10 +48,11 @@ Two HTML pages share one design system and one data source:
 
 ## OG preview image
 
-- **Generator:** `make_og.py` (Pillow) renders `og.png` at 1200×630. Modeled after `/Users/tchung/claude/ai-terms/make_og.py` but redesigned to mirror this site's hero 1:1 — Georgia Bold "Claude 101", muted eyebrow, real lead paragraph, and the same four-pair meta strip the landing page shows. No rainbow band, no soft blobs — keep it that way; the design intent is "looks like the hero, not a generic template."
+- **Generator:** `make_og.py` (Pillow) renders `og-hero.png` at 1200×630. Modeled after `/Users/tchung/claude/ai-terms/make_og.py` but redesigned to mirror this site's hero 1:1 — Georgia Bold "Claude 101", muted eyebrow, real lead paragraph, and the same four-pair meta strip the landing page shows. No rainbow band, no soft blobs — keep it that way; the design intent is "looks like the hero, not a generic template."
 - **Palette:** lifted from `css/styles.css` design tokens — `#f3ede2` bg, `#1f1d1a` ink, `#5b554c` ink-soft, `#8a847a` ink-mute, `#c96442` accent (used only for the URL).
-- **Workflow after copy/palette changes:** `python3 make_og.py` → `scp og.png root@ai:/var/www/html/claude-101/` → open https://developers.facebook.com/tools/debug/?q=https%3A%2F%2Fai.tchung.org%2Fclaude-101%2F and click **Scrape Again**. That refreshes Meta's scraper cache for the FB graph.
-- **Threads cache quirk:** Threads keeps its own page-→-preview cache, separate from the FB Sharing Debugger. After updating the image, the FB debugger will show the new card immediately but Threads can keep serving the old preview for hours. To force-refresh: paste the URL once with a fragment (`https://ai.tchung.org/claude-101/#share`) — same page, different cache key — or share `course.html` (different path, same OG meta). Don't add `?v=N` to the `og:image` meta tag; it works but the user dislikes the ugly URL.
+- **Workflow after copy/palette changes:** `python3 make_og.py` → `scp og-hero.png root@ai:/var/www/html/claude-101/` → open https://developers.facebook.com/tools/debug/?q=https%3A%2F%2Fai.tchung.org%2Fclaude-101%2F and click **Scrape Again**. That refreshes Meta's scraper cache for the FB graph.
+- **Filename matters for cache-busting:** Threads (and other social scrapers) cache the og:image file aggressively by URL — no Cache-Control headers on the PNG means they hold it indefinitely. When the image redesign needs to propagate, *rename the file* (e.g. `og-hero.png` → `og-hero-v2.png`) and update the `og:image` / `twitter:image` meta tags in both `index.html` and `course.html`. A new filename forces a fresh fetch on every scraper. Don't add `?v=N` to the URL — works, but user dislikes the query string in the meta tag.
+- **Threads cache quirk:** Threads keeps a separate page→preview cache from the FB Sharing Debugger and has no public refresh endpoint. Fragment tricks (`#share`, `#refresh`) don't bust it — Threads strips fragments before keying. `course.html` doesn't bust it either when the og:image is identical. After renaming the og file, leave Threads alone for 24–48h while its own TTL expires; re-pasting variants only resets the TTL and prolongs the stale state.
 
 ## Deployment target
 
