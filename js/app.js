@@ -114,7 +114,7 @@
       : "";
 
     pane.innerHTML = `
-      <div class="crumb">${lesson.section}</div>
+      <div class="crumb">${lesson.section} · 레슨 ${idx + 1} / ${totalLessonCount()}</div>
       <h1>${lesson.title}</h1>
       <div class="body">${lesson.body}</div>
       ${quizHtml}
