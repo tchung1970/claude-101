@@ -201,7 +201,7 @@
     const prevLesson = ALL_LESSONS[certIdx - 1];
 
     pane.innerHTML = `
-      <div class="crumb">마무리 및 수료증</div>
+      <div class="crumb">수료증</div>
       <h1>수료증</h1>
       ${
         unlocked
@@ -219,7 +219,7 @@
               <div class="recipient" id="recipient">${escapeHtml(savedName || "이름을 입력하세요")}</div>
               <div class="meta-line">다음 강의를 성공적으로 수료하였음을 증명합니다</div>
               <h1 style="margin: 0.5rem 0 0.25rem;">Claude 101</h1>
-              <div class="meta-line">Anthropic Learning · ${new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })}</div>
+              <div class="meta-line">${new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })}</div>
             </div>
           `
           : `
@@ -230,7 +230,6 @@
               <div class="recipient">— 잠금 상태 —</div>
               <div class="meta-line">다음 강의를 성공적으로 수료하였음을 증명합니다</div>
               <h1 style="margin: 0.5rem 0 0.25rem;">Claude 101</h1>
-              <div class="meta-line">Anthropic Learning</div>
             </div>
           `
       }

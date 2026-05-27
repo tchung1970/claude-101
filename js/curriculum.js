@@ -406,7 +406,7 @@ window.CURRICULUM = [
     ]
   },
   {
-    section: "마무리 및 수료증",
+    section: "수료증",
     lessons: [
       {
         id: "certificate",
