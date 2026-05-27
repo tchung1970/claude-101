@@ -93,12 +93,12 @@
           <h3>이해도 점검</h3>
           ${lesson.quiz.map((q, qi) => `
             <div class="q" data-qi="${qi}">
-              <p>${q.q}</p>
+              <p><strong>Q${qi + 1}.</strong> ${q.q}</p>
               <div class="options">
                 ${q.options.map((opt, oi) => `
                   <label data-oi="${oi}">
                     <input type="radio" name="q${qi}" value="${oi}" />
-                    <span>${opt}</span>
+                    <span><strong>${String.fromCharCode(65 + oi)}.</strong> ${opt}</span>
                   </label>
                 `).join("")}
               </div>
